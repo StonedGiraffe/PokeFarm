@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'me.ghost.pokefarm'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes (
+                'Main-Class': 'me.ghost.pokefarm.Main'
+        )
+    }
+}
+
+dependencies {
+
+}
