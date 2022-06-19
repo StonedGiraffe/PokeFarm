@@ -22,10 +22,13 @@ public class Position {
     public void setY(String y) { this.y = y; }
     
     public void tap() {
-        Main.debug("Tapping " + this.name);
-        CommandHelper.Tap(this.x, this.y);
+        if (Main.debug) Main.debug("Tapping " + this.name);
+        ADBHelper.Tap(this.x, this.y);
     }
-    public void dragTo(String x, String y) { CommandHelper.Swipe(this.x, this.y, x, y, "500"); }
-    public void dragTo(Position p) { CommandHelper.Swipe(this.x, this.y, p.x, p.y, "500"); }
+    public void dragTo(String x, String y) { ADBHelper.Swipe(this.x, this.y, x, y, "500"); }
+    public void dragTo(Position p) {
+        if (Main.debug) Main.debug("Dragging " + this.name + " to " + p.name);
+        ADBHelper.Swipe(this.x, this.y, p.x, p.y, "500");
+    }
     
 }

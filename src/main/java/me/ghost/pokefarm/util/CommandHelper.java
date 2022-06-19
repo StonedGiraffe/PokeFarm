@@ -37,36 +37,6 @@ public class CommandHelper {
         }
     }
 
-    public static void prepADB() {
-        //Main.debug("killing server");
-        runCommand("adb kill-server");
-        //Main.debug("starting server");
-        runCommand("adb start-server");
-    }
-
-    public static boolean isDeviceConnected() {
-        String deviceID = runCommandWithResult("adb devices | findstr \"\\<device\\>\"");
-        return deviceID != null && !deviceID.isBlank() && !deviceID.isEmpty();
-    }
-
-    public static String getDeviceID() {
-        String deviceID = runCommandWithResult("adb devices | findstr \"\\<device\\>\"");
-        if (deviceID == null || deviceID.isBlank() || deviceID.isEmpty()) return "Unknown?";
-        return deviceID.replace("device", "").strip();
-    }
-
-
-    // Screen Input
-
-    public static void Tap(String x, String y) {
-        runCommand("adb shell input tap " + x + " " + y);
-    }
-
-    public static void Swipe(String startX, String startY, String endX, String endY, String duration) {
-        runCommand("adb shell input swipe " + startX + " " + startY + " " + endX + " " + endY + " " + duration);
-    }
-
-
     public static void sleep(long s, int t) {
         try {
             switch (t) {
