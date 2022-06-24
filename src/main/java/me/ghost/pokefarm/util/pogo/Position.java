@@ -1,6 +1,7 @@
-package me.ghost.pokefarm.util;
+package me.ghost.pokefarm.util.pogo;
 
 import me.ghost.pokefarm.Main;
+import me.ghost.pokefarm.util.system.ADBHelper;
 
 public class Position {
 

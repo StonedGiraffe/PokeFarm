@@ -1,10 +1,20 @@
 package me.ghost.pokefarm;
 
-import me.ghost.pokefarm.util.ADBHelper;
-import me.ghost.pokefarm.util.CommandHelper;
-import me.ghost.pokefarm.util.PogoHelper;
+import me.ghost.pokefarm.util.pogo.Position;
+import me.ghost.pokefarm.util.screen.ImageParser;
+import me.ghost.pokefarm.util.system.ADBHelper;
+import me.ghost.pokefarm.util.system.CommandHelper;
+import me.ghost.pokefarm.util.pogo.PogoHelper;
+import me.ghost.pokefarm.util.system.FileHelper;
+import nu.pattern.OpenCV;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.Console;
+import java.io.File;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -21,6 +31,8 @@ public class Main {
     public static boolean debug = false;
 
     public static void main(String[] args) {
+        //OpenCV.loadShared();
+        OpenCV.loadLocally();
         String cmd = args[0];
         if (cmd == null || cmd.isBlank() || cmd.isEmpty()) cmd = "--farm";
 
@@ -47,6 +59,32 @@ public class Main {
                 CommandHelper.sleep(30, 3);
             });
         }
+        if (cmd.equals("--debug-image")) {
+            debug = true;
+            debug("Now debugging image parsing");
+            File in = new File(FileHelper.getWorkDir(), "screenshot.jpg");
+            if (!in.exists()) {
+                debug("screenshot.png not located in current path!");
+                System.exit(0);
+            }
+            File pokeball = new File(FileHelper.getWorkDir(), "go_plus.png");
+            if (!pokeball.exists()) {
+                debug("pokeball.png not located in current path, trying to copy...");
+                boolean wrote = FileHelper.writeResource("go_plus.png", pokeball);
+                if (!wrote) {
+                    debug("some shit went wrong extracting it");
+                    System.exit(0);
+                }
+            }
+            debug("Trying to locate go plus icon in main screen...");
+            Mat screenshot = null;
+            Mat toFind = null;
+            screenshot = Imgcodecs.imread(in.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+            toFind = Imgcodecs.imread(pokeball.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+            ImageParser.locateImage(screenshot, toFind, "go_plus_button");
+            System.exit(0);
+        }
+
         if (cmd.equals("--debug-startup")) {
             debug("Now debugging startup functions");
             debug = true;

@@ -1,4 +1,4 @@
-package me.ghost.pokefarm.util;
+package me.ghost.pokefarm.util.system;
 
 import me.ghost.pokefarm.Main;
 
