@@ -36,9 +36,9 @@ public class ImageParser {
         if (Main.debug) {
             Main.debug("locateImage() with name: " + name);
             Main.debug("X: " + matchLoc.x + " | Y: " + matchLoc.y);
-            File outImg = new File(FileHelper.getWorkDir(), "matched.png");
+            File outImg = new File(FileHelper.getWorkDir(), name + "_matched.png");
             // draw a rectangle around the matched area
-            Imgproc.rectangle(screenshot, matchLoc, new Point(matchLoc.x + toFind.cols(), matchLoc.y + toFind.rows()), new Scalar(255, 255, 255));
+            Imgproc.rectangle(screenshot, matchLoc, new Point(matchLoc.x + toFind.cols(), matchLoc.y + toFind.rows()), new Scalar(255, 0, 0));
             Main.debug("Writing matched.png");
             Imgcodecs.imwrite(outImg.getPath(), screenshot);
         }

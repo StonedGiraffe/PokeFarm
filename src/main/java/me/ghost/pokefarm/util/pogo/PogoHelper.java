@@ -43,7 +43,7 @@ public class PogoHelper {
         if (Main.debug) Main.debug("Shutdown complete");
     }
 
-    public static void getToMainMenu() {
+    public static void getToMainMenu() { // shitty but works every time lol
         IntStream.rangeClosed(1, 4).forEach(i -> {
             CommandHelper.runCommand("adb shell input keyevent KEYCODE_BACK");
             CommandHelper.sleep(900, 1);

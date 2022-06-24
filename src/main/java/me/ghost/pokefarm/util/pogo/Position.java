@@ -21,6 +21,13 @@ public class Position {
 
     public void setX(String x) { this.x = x; }
     public void setY(String y) { this.y = y; }
+    public void setXY(String xy) {
+        String[] d = xy.split(",");
+        if (d[0] != null && d[1] != null) {
+            this.x = d[0];
+            this.y = d[1];
+        }
+    }
     
     public void tap() {
         if (Main.debug) Main.debug("Tapping " + this.name);

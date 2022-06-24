@@ -6,9 +6,8 @@ import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.security.CodeSource;
 
 public class FileHelper {
@@ -29,6 +28,10 @@ public class FileHelper {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static File getBaseFolder() {
+        return new File(getWorkDir(), "pokefarm");
     }
 
     public static InputStream getResource(String name) {
@@ -63,6 +66,18 @@ public class FileHelper {
         }
     }
 
+    public static boolean writeRscImage(String name, File out) {
+        BufferedImage im = getRscImg(name);
+        if (im == null) return false;
+        try {
+            ImageIO.write(im, "png", out);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static BufferedImage getRscImg(String name) {
         InputStream is = getResource(name);
         if (is == null) return null;
@@ -83,6 +98,18 @@ public class FileHelper {
         } catch (Exception e) {
             Main.debug("loadMat() error | wanted file: " + f.getPath());
             Main.debug("Exception: " + e);
+            return null;
+        }
+    }
+
+    public static String streamToString(InputStream in) {
+        if (in == null) return null;
+        try {
+            BufferedInputStream bin = new BufferedInputStream(in);
+            ByteArrayOutputStream buf = new ByteArrayOutputStream();
+            for (int result = bin.read(); result != -1; result = bin.read()) buf.write((byte) result);
+            return buf.toString(StandardCharsets.UTF_8);
+        } catch (Exception ignored) {
             return null;
         }
     }
