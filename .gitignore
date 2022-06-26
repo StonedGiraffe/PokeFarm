@@ -17,3 +17,4 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+lib/ScreenHelper-1.0-SNAPSHOT-all.jar

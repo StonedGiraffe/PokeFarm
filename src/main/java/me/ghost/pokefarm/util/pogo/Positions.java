@@ -1,5 +1,7 @@
 package me.ghost.pokefarm.util.pogo;
 
+import me.ghost.screenhelper.util.Position;
+
 public class Positions {
 
     //Todo config system

@@ -11,11 +11,12 @@ import java.util.Objects;
 public class ConfigHelper {
 
     public static int FRIENDS = 0;
+    public static int FARM_LOOPS = 6;
+    public static boolean IS_SAMSUNG = false;
 
 
     public static String BASE_CONFIG = """
             {
-                "friends" : "79",
                 "trainer_menu_button" : "150,2535",
                 "friend_tab_button" : "1018,230",
                 "first_friend" : "814,1117",
@@ -25,14 +26,20 @@ public class ConfigHelper {
                 "swipe_end" : "7,2665",
                 "game_lock" : "1391,2892",
                 "unlock_start" : "778,1518",
-                "unlock_end" : "778,950"
+                "unlock_end" : "778,950",
+                "is_samsung" : "true",
+                "friends" : "79",
+                "farm_loops" : "6",
+                "debug" : "false"
             }""";
 
 
     public static boolean init() {
-        File configFile = new File(FileHelper.getBaseFolder(), "config.json");
+        File base = FileHelper.getBaseFolder();
+        if (!base.exists()) if (!base.mkdirs()) return false;
+        File configFile = new File(base, "config.json");
         if (!configFile.exists()) {
-            if (Main.debug) Main.debug("config.json doesn't exist, writing now.");
+            Main.debug("config.json doesn't exist, writing now.");
             try { // write default config if it doesn't exist
                 FileWriter fw = new FileWriter(configFile);
                 fw.write(BASE_CONFIG);
@@ -49,14 +56,22 @@ public class ConfigHelper {
                 Main.debug("config.json is null or empty?");
                 return false;
             }
-            if (Main.debug) Main.debug("setting Positions from config.json...");
+            Main.debug("setting Positions from config.json...");
             setPosFromConfig(configData); // set Positions from config.json
-            if (Main.debug) Main.debug("Trainer Menu | X: " + Positions.TRAINER_MENU.getX() + " | Y: " + Positions.TRAINER_MENU.getY());
+            //Main.debug("Trainer Menu | X: " + Positions.TRAINER_MENU.getX() + " | Y: " + Positions.TRAINER_MENU.getY());
             int fr = JsonUtil.getInt(configData, "friends");
+            int lp = JsonUtil.getInt(configData, "farm_loops");
+            IS_SAMSUNG = JsonUtil.getBool(configData, "is_samsung");
+            Main.debug = JsonUtil.getBool(configData, "debug");
             if (fr != -1) FRIENDS = fr;
             else {
                 Main.log("Invalid friends number in config.json...");
-                return false;
+                FRIENDS = 0;
+            }
+            if (lp != -1) FARM_LOOPS = lp;
+            else {
+                Main.log("Invalid farm_loops in config.json...");
+                FARM_LOOPS = 6;
             }
             return true;
         } catch (Exception e) {

@@ -94,9 +94,9 @@ public class FileHelper {
 
     public static Mat loadMat(File f) {
         try {
-            return Imgcodecs.imread(f.getPath());
+            return Imgcodecs.imread(f.getAbsolutePath());
         } catch (Exception e) {
-            Main.debug("loadMat() error | wanted file: " + f.getPath());
+            Main.debug("loadMat() error | wanted file: " + f.getAbsolutePath());
             Main.debug("Exception: " + e);
             return null;
         }
@@ -112,6 +112,11 @@ public class FileHelper {
         } catch (Exception ignored) {
             return null;
         }
+    }
+
+    public static String wrapPath(File f) {
+        if (f == null || !f.exists()) return "";
+        return "\"" + f.getAbsolutePath() + "\"";
     }
 
 }
